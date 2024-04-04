@@ -2,8 +2,9 @@ import pyttsx3
 from tkinter import *
 import random
 from tkinter import messagebox
-
 engine = pyttsx3.init()
+
+
 vety = [
     "The cat sat",
     "She ran fast",
@@ -65,8 +66,10 @@ engine.setProperty('volume',1.0)
 def return_volume():
     volume = engine.getProperty('volume')
     return volume
-def start(thing_to_say):
-    say(thing_to_say)
+def start():
+    said = random.choice(vety)
+    say(said)
+    return said
 
 def check(entry, text):
     print(return_volume())
@@ -74,35 +77,41 @@ def check(entry, text):
     print(thing_to_say.lower())
     print(entry.get().lower())
     if entry.get().lower() == thing_to_say.lower():
-        correct = messagebox.askyesno("Good","You have answered correctly. Continue?")
+        correct = messagebox.askquestion("Good","You have answered correctly. Continue?")
         if correct == 'yes':
             volumee = return_volume()
             engine.setProperty('volume',volumee-0.5)
-            start(thing_to_say)
+            quit()
+
+
+
+
     else:
         if return_volume() < 0.5:
             messagebox.showinfo("Very bat njews","You shall see a doctor")
         print("bbb")
 
 
-def layout_create():
-    root = Tk()
-    thingtosay = random.choice(vety)
-    button = Button(command=lambda : start(thingtosay),text="start")
-    button.grid(row=0)
-    entry = Entry()
-    entry.grid(row=1)
-    checkbtn = Button(text="check", command = lambda : check(entry,thingtosay))
+def layout_create(parent):
+    btn = Button(parent)
+    btn.grid(row=0)
+    checkbtn = Button(parent, text="check", command=lambda: check(entry, sentence))
     checkbtn.grid(row=2)
+    sentence = start()
+    entry = Entry(parent)
+    entry.grid(row=1)
+
+    #button = Button(command=lambda: start(), text="start")
+    #button.grid(row=0)
+def main():
+    root = Tk()
+    create_window(root)
     root.mainloop()
+def create_window(root):
+    new_window = Frame(root)
+    layout_create(new_window)
+    new_window.pack()
+main()
 
 
-
-
-
-
-
-
-
-layout_create()
 
