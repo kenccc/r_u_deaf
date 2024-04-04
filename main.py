@@ -4,7 +4,6 @@ import random
 from tkinter import messagebox
 engine = pyttsx3.init()
 
-
 vety = [
     "The cat sat",
     "She ran fast",
@@ -58,14 +57,15 @@ vety = [
     "Dreams come",
 ]
 def say(thing):
+    engine.setProperty('volume',1.0)
     engine.say(thing)
     engine.runAndWait()
 
 
-engine.setProperty('volume',1.0)
 def return_volume():
     volume = engine.getProperty('volume')
     return volume
+  
 def start():
     said = random.choice(vety)
     say(said)
@@ -92,25 +92,27 @@ def check(entry, text):
         print("bbb")
 
 
-def layout_create(parent):
-    btn = Button(parent)
+def create_window(parent, sentence):
+    new_window = Toplevel(parent)
+    new_window.title(sentence)
+  
+    btn = Button(new_window)
     btn.grid(row=0)
-    checkbtn = Button(parent, text="check", command=lambda: check(entry, sentence))
+    checkbtn = Button(new_window, text="check", command=lambda: check(entry, sentence))
     checkbtn.grid(row=2)
     sentence = start()
-    entry = Entry(parent)
+    entry = Entry(new_window)
     entry.grid(row=1)
 
     #button = Button(command=lambda: start(), text="start")
     #button.grid(row=0)
+
 def main():
     root = Tk()
-    create_window(root)
+    create_button = Button(root, text="testme", command=lambda: create_window(root, start()))
+    create_button.pack()
     root.mainloop()
-def create_window(root):
-    new_window = Frame(root)
-    layout_create(new_window)
-    new_window.pack()
+  
 main()
 
 
